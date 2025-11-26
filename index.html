@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KudoSkill - Level Up Your Career</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables and Base Styles */
+        :root {
+            --primary: #6a11cb;
+            --primary-light: #8a2be2;
+            --primary-dark: #4a0d9c;
+            --secondary: #00c6ff;
+            --accent: #ff7e5f;
+            --accent-light: #ff9e80;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --dark: #0f1419;
+            --darker: #0a0e14;
+            --light: #ffffff;
+            --gray: #8a8d91;
+            --gray-light: #e8eaed;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-secondary: linear-gradient(135deg, var(--primary-light), var(--accent));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--warning));
+            --border-radius: 16px;
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transform: translateY(-2px);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--light);
+        }
+
+        .credits {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 2rem;
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">KudoSkill</div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active" data-page="home">Home</a>
+                    <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
+                    <a href="#" class="nav-link" data-page="learn">Learn</a>
+                    <a href="#" class="nav-link" data-page="jobs">Jobs</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-primary" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="container">
+                <h1 class="page-title">Welcome to KudoSkill</h1>
+                <p class="page-subtitle">Level up your career with our comprehensive platform</p>
+                
+                <div style="text-align: center; margin-top: 4rem;">
+                    <button class="btn btn-primary" id="getStartedBtn">
+                        Get Started <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="page">
+            <div class="container">
+                <h1 class="page-title">Your Dashboard</h1>
+                <p class="page-subtitle">Track your progress and achievements</p>
+                <p style="color: var(--gray);">Dashboard content coming soon...</p>
+            </div>
+        </section>
+
+        <!-- Learn Page -->
+        <section id="learn" class="page">
+            <div class="container">
+                <h1 class="page-title">Learn Skills</h1>
+                <p class="page-subtitle">Enhance your career with our curated courses</p>
+                <p style="color: var(--gray);">Learning platform coming soon...</p>
+            </div>
+        </section>
+
+        <!-- Jobs Page -->
+        <section id="jobs" class="page">
+            <div class="container">
+                <h1 class="page-title">Jobs & Internships</h1>
+                <p class="page-subtitle">Find opportunities that match your skills</p>
+                <p style="color: var(--gray);">Job marketplace coming soon...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="logo" style="margin-bottom: 1rem;">KudoSkill</div>
+                    <p style="color: var(--gray); margin-bottom: 1.5rem;">The ultimate platform to store credentials, learn new skills, and land your dream job.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="dashboard">Dashboard</a></li>
+                        <li><a href="#" data-page="learn">Learn</a></li>
+                        <li><a href="#" data-page="jobs">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="credits">
+                    <p>Developed with ❤️ by Team BWA</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Basic Navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        const loginBtn = document.getElementById('loginBtn');
+        const getStartedBtn = document.getElementById('getStartedBtn');
+
+        function navigateToPage(pageId) {
+            // Update active nav link
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            const targetNav = document.querySelector(`[data-page="${pageId}"]`);
+            if (targetNav) targetNav.classList.add('active');
+            
+            // Show target page
+            pages.forEach(page => {
+                page.classList.remove('active');
+                if (page.id === pageId) {
+                    page.classList.add('active');
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+                navigateToPage(targetPage);
+            });
+        });
+
+        // Footer links navigation
+        document.querySelectorAll('.footer-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (link.getAttribute('data-page')) {
+                    const targetPage = link.getAttribute('data-page');
+                    navigateToPage(targetPage);
+                }
+            });
+        });
+
+        // Login button
+        loginBtn.addEventListener('click', () => {
+            alert('Login functionality coming soon!');
+        });
+
+        getStartedBtn.addEventListener('click', () => {
+            navigateToPage('dashboard');
+        });
+    </script>
+</body>
+</html>
