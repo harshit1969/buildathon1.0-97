@@ -7,170 +7,62 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        /* Previous CSS remains the same, adding new dashboard styles */
+        /* Previous CSS remains the same, adding vault styles */
         
-        /* Dashboard Grid Layout */
-        .dashboard-grid {
+        /* Vault Layout */
+        .vault-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto auto;
             gap: 2rem;
-            grid-template-areas: 
-                "progress actions"
-                "certificates jobs"
-                "stats stats";
         }
 
-        .dashboard-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        @media (max-width: 768px) {
+            .vault-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .dashboard-card:hover {
-            transform: translateY(-5px) scale(1.01);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .dashboard-card.progress {
-            grid-area: progress;
-        }
-
-        .dashboard-card.actions {
-            grid-area: actions;
-        }
-
-        .dashboard-card.certificates {
-            grid-area: certificates;
-        }
-
-        .dashboard-card.jobs {
-            grid-area: jobs;
-        }
-
-        .dashboard-card.stats {
-            grid-area: stats;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin: 1.5rem 0;
-        }
-
-        .progress-bar {
-            height: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        /* File Input Styling */
+        .file-input-wrapper {
+            position: relative;
             overflow: hidden;
-            margin-bottom: 0.5rem;
+            display: inline-block;
+            width: 100%;
         }
 
-        .progress-fill {
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
             height: 100%;
-            background: var(--gradient);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        /* Badges */
-        .badge {
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .badge.beginner {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-            color: white;
-        }
-
-        .badge.bronze {
-            background: linear-gradient(135deg, #cd7f32, #a56a28);
-            color: white;
-        }
-
-        .badge.silver {
-            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
-            color: black;
-        }
-
-        .badge.gold {
-            background: linear-gradient(135deg, #ffd700, #d4af37);
-            color: black;
-        }
-
-        .badge.success {
-            background: var(--success);
-            color: white;
-        }
-
-        .badge.warning {
-            background: var(--warning);
-            color: white;
-        }
-
-        .badge.info {
-            background: var(--info);
-            color: white;
-        }
-
-        .badge.premium {
-            background: var(--gradient);
-            color: white;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .action-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            padding: 1.2rem 1rem;
-            border-radius: var(--border-radius);
-            color: var(--light);
             cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            backdrop-filter: blur(10px);
         }
 
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        .file-input-display {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--gray);
+            text-align: left;
         }
 
-        .action-btn i {
-            font-size: 1.5rem;
+        .file-selected {
             color: var(--light);
+            border-color: var(--light);
         }
 
-        /* Cards Grid */
-        .documents-grid, .jobs-grid {
+        /* Document Cards */
+        .documents-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
 
-        .document-card, .job-card {
+        .document-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: var(--border-radius);
             padding: 1.5rem;
@@ -178,207 +70,160 @@
             transition: var(--transition);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
 
-        .document-card:hover, .job-card:hover {
+        .document-card:hover {
             transform: translateY(-5px) scale(1.02);
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .card-header {
+        .document-card.verified::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--success);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .document-card.pending::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--warning);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .document-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+
+        .document-meta {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
-        .card-actions {
+        .document-actions {
             display: flex;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
-        .icon-btn {
-            background: none;
-            border: none;
+        /* Status Badges */
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-verified {
+            background: rgba(46, 204, 113, 0.2);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--warning);
+        }
+
+        .status-rejected {
+            background: rgba(231, 76, 60, 0.2);
+            color: var(--danger);
+        }
+
+        /* Storage Meter */
+        .storage-meter {
+            margin: 1.5rem 0;
+        }
+
+        .storage-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .storage-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .storage-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Document Categories */
+        .category-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
             color: var(--gray);
             cursor: pointer;
-            font-size: 1.25rem;
             transition: var(--transition);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon-btn:hover {
-            color: var(--light);
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.1);
-        }
-
-        /* Skill Tags */
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .skill-tag {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            padding: 0.4rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .match-badge {
-            background: var(--gradient-secondary);
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* Stats */
-        .stat-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .stat-item:hover {
-            transform: translateY(-3px) scale(1.02);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--light);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--gray);
             font-size: 0.9rem;
         }
 
-        /* Company Dashboard */
-        .company-dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto auto;
-            gap: 2rem;
-            grid-template-areas: 
-                "stats stats"
-                "jobs applicants"
-                "analytics analytics";
+        .category-tab.active {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
         }
 
-        .company-dashboard-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .category-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .company-dashboard-card:hover {
-            transform: translateY(-5px) scale(1.01);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        /* Upload Progress */
+        .upload-progress {
+            margin-top: 1rem;
+            display: none;
         }
 
-        .company-dashboard-card.stats {
-            grid-area: stats;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .company-dashboard-card.jobs {
-            grid-area: jobs;
-        }
-
-        .company-dashboard-card.applicants {
-            grid-area: applicants;
-        }
-
-        .company-dashboard-card.analytics {
-            grid-area: analytics;
-        }
-
-        .analytics-container {
-            margin-top: 1.5rem;
-            height: 300px;
-            position: relative;
-        }
-
-        /* Credit Counter */
-        .credit-counter {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50px;
-        }
-
-        /* Dashboard Header */
-        .dashboard-header {
+        .progress-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
-        .company-dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-                grid-template-areas: 
-                    "progress"
-                    "actions"
-                    "certificates"
-                    "jobs"
-                    "stats";
-            }
-
-            .company-dashboard-grid {
-                grid-template-columns: 1fr;
-                grid-template-areas: 
-                    "stats"
-                    "jobs"
-                    "applicants"
-                    "analytics";
-            }
-
-            .dashboard-card.stats {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .documents-grid, .jobs-grid {
-                grid-template-columns: 1fr;
-            }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -391,6 +236,7 @@
                 <div class="nav-links">
                     <a href="#" class="nav-link active" data-page="home">Home</a>
                     <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
+                    <a href="#" class="nav-link" data-page="vault">Vault</a>
                     <a href="#" class="nav-link" data-page="learn">Learn</a>
                     <a href="#" class="nav-link" data-page="jobs">Jobs</a>
                     <a href="#" class="nav-link company-nav" data-page="company-dashboard" style="display: none;">Company Dashboard</a>
@@ -442,6 +288,7 @@
                 </div>
                 
                 <div class="dashboard-grid">
+                    <!-- Dashboard content remains the same -->
                     <div class="dashboard-card progress">
                         <h2>Progress Overview</h2>
                         <div class="badge-display">
@@ -452,14 +299,6 @@
                                 <div class="progress-fill" id="progressFill" style="width: 20%"></div>
                             </div>
                             <p id="progressText">120/200 to Silver</p>
-                        </div>
-                        <div class="requirements">
-                            <h3>Next Level Requirements</h3>
-                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
-                                <li>Complete profile basics</li>
-                                <li>Add 5+ skills</li>
-                                <li>Upload 3+ skill proofs</li>
-                            </ul>
                         </div>
                     </div>
 
@@ -478,42 +317,32 @@
                                 <i class="fas fa-briefcase"></i>
                                 <span>View Jobs</span>
                             </button>
-                            <button class="action-btn" data-page="profile">
-                                <i class="fas fa-user"></i>
-                                <span>My Profile</span>
-                            </button>
                         </div>
                     </div>
 
                     <div class="dashboard-card certificates">
                         <h2>Recent Certificates</h2>
                         <div class="documents-grid">
-                            <div class="document-card">
+                            <div class="document-card verified">
                                 <div class="card-header">
                                     <h3>JavaScript Certification</h3>
-                                    <div class="card-actions">
-                                        <button class="icon-btn"><i class="fas fa-download"></i></button>
-                                    </div>
+                                    <span class="status-badge status-verified">Verified</span>
                                 </div>
                                 <p>Issued by: Code Academy</p>
-                                <p>Date: 15 May 2023</p>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">JavaScript</span>
-                                    <span class="skill-tag">Web Development</span>
+                                <div class="document-meta">
+                                    <span>15 May 2023</span>
+                                    <span>2.4 MB</span>
                                 </div>
                             </div>
-                            <div class="document-card">
+                            <div class="document-card verified">
                                 <div class="card-header">
                                     <h3>React Development</h3>
-                                    <div class="card-actions">
-                                        <button class="icon-btn"><i class="fas fa-download"></i></button>
-                                    </div>
+                                    <span class="status-badge status-verified">Verified</span>
                                 </div>
                                 <p>Issued by: Tech Institute</p>
-                                <p>Date: 22 June 2023</p>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">React</span>
-                                    <span class="skill-tag">Frontend</span>
+                                <div class="document-meta">
+                                    <span>22 June 2023</span>
+                                    <span>1.8 MB</span>
                                 </div>
                             </div>
                         </div>
@@ -531,23 +360,7 @@
                                 <div class="skill-tags">
                                     <span class="skill-tag">JavaScript</span>
                                     <span class="skill-tag">React</span>
-                                    <span class="skill-tag">CSS</span>
                                 </div>
-                                <p>Location: Remote</p>
-                                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Apply Now</button>
-                            </div>
-                            <div class="job-card">
-                                <div class="card-header">
-                                    <h3>UI/UX Designer</h3>
-                                    <span class="match-badge">72% Match</span>
-                                </div>
-                                <p>Creative Studio</p>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">Figma</span>
-                                    <span class="skill-tag">UI Design</span>
-                                    <span class="skill-tag">Prototyping</span>
-                                </div>
-                                <p>Location: San Francisco, CA</p>
                                 <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Apply Now</button>
                             </div>
                         </div>
@@ -560,143 +373,235 @@
                         </div>
                         <div class="stat-item">
                             <div class="stat-value">8</div>
-                            <div class="stat-label">Documents Uploaded</div>
+                            <div class="stat-label">Documents</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value">5</div>
-                            <div class="stat-label">Courses Completed</div>
+                            <div class="stat-label">Courses</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value">15</div>
-                            <div class="stat-label">Job Applications</div>
+                            <div class="stat-label">Applications</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Company Dashboard -->
-        <section id="company-dashboard" class="page">
+        <!-- Vault Page -->
+        <section id="vault" class="page">
             <div class="container">
-                <div class="company-dashboard-header">
-                    <div>
-                        <h1 class="page-title">Company Dashboard</h1>
-                        <p class="page-subtitle">Welcome back, Tech Solutions Inc. Here's your hiring overview.</p>
-                    </div>
-                    <div class="badge premium">Premium Plan</div>
-                </div>
+                <h1 class="page-title">Digital Vault</h1>
+                <p class="page-subtitle">Securely store and manage all your important documents</p>
                 
-                <div class="company-dashboard-grid">
-                    <div class="company-dashboard-card stats">
-                        <div class="stat-item">
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Active Jobs</div>
+                <div class="vault-grid">
+                    <!-- Upload Section -->
+                    <div class="dashboard-card">
+                        <h2>Upload New Document</h2>
+                        
+                        <!-- Storage Meter -->
+                        <div class="storage-meter">
+                            <div class="storage-info">
+                                <span>Storage Used</span>
+                                <span>45.2 MB / 100 MB</span>
+                            </div>
+                            <div class="storage-bar">
+                                <div class="storage-fill" style="width: 45.2%"></div>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value">156</div>
-                            <div class="stat-label">Total Applicants</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">24</div>
-                            <div class="stat-label">Interviews Scheduled</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">8</div>
-                            <div class="stat-label">New Hires</div>
-                        </div>
+
+                        <form id="uploadForm">
+                            <div class="form-group">
+                                <label for="docType">Document Type</label>
+                                <select id="docType" class="form-control" required>
+                                    <option value="">Select document type</option>
+                                    <option value="10th">10th Marksheet</option>
+                                    <option value="12th">12th Marksheet</option>
+                                    <option value="degree">Degree Certificate</option>
+                                    <option value="skill">Skill Certificate</option>
+                                    <option value="aadhar">Aadhar Card</option>
+                                    <option value="pan">PAN Card</option>
+                                    <option value="resume">Resume</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="docTitle">Document Title</label>
+                                <input type="text" id="docTitle" class="form-control" placeholder="Enter document title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="issuingAuthority">Issuing Authority</label>
+                                <input type="text" id="issuingAuthority" class="form-control" placeholder="e.g., CBSE, University of Delhi">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="issueDate">Issue Date</label>
+                                <input type="date" id="issueDate" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="docFile">Upload File</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="docFile" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+                                    <div class="file-input-display" id="fileDisplay">
+                                        <i class="fas fa-cloud-upload-alt"></i> Choose file (PDF, JPG, PNG, DOC)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upload Progress -->
+                            <div class="upload-progress" id="uploadProgress">
+                                <div class="progress-info">
+                                    <span>Uploading...</span>
+                                    <span id="progressPercent">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="uploadProgressBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-upload"></i> Upload Document
+                            </button>
+                        </form>
                     </div>
 
-                    <div class="company-dashboard-card jobs">
-                        <h2>Recent Job Postings</h2>
-                        <div class="quick-actions">
-                            <button class="action-btn" data-page="company-jobs">
-                                <i class="fas fa-eye"></i>
-                                <span>View All Jobs</span>
-                            </button>
-                            <button class="action-btn" id="quickPostJob">
-                                <i class="fas fa-plus"></i>
-                                <span>Post New Job</span>
-                            </button>
-                        </div>
-                        <div class="jobs-grid">
-                            <div class="job-card">
-                                <div class="card-header">
-                                    <h3>Senior Frontend Developer</h3>
-                                    <span class="badge success">Active</span>
-                                </div>
-                                <p><strong>Department:</strong> Engineering</p>
-                                <p><strong>Applications:</strong> 42</p>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">React</span>
-                                    <span class="skill-tag">TypeScript</span>
-                                    <span class="skill-tag">UI/UX</span>
-                                </div>
-                            </div>
-                            <div class="job-card">
-                                <div class="card-header">
-                                    <h3>Product Manager</h3>
-                                    <span class="badge warning">Paused</span>
-                                </div>
-                                <p><strong>Department:</strong> Product</p>
-                                <p><strong>Applications:</strong> 28</p>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">Product Strategy</span>
-                                    <span class="skill-tag">Agile</span>
-                                    <span class="skill-tag">User Research</span>
-                                </div>
+                    <!-- Documents List -->
+                    <div class="dashboard-card">
+                        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
+                            <h2 style="margin: 0;">Your Documents</h2>
+                            <div class="category-tabs">
+                                <button class="category-tab active" data-category="all">All</button>
+                                <button class="category-tab" data-category="verified">Verified</button>
+                                <button class="category-tab" data-category="pending">Pending</button>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="company-dashboard-card applicants">
-                        <h2>Recent Applicants</h2>
-                        <div class="quick-actions">
-                            <button class="action-btn" data-page="company-applicants">
-                                <i class="fas fa-eye"></i>
-                                <span>View All Applicants</span>
-                            </button>
-                        </div>
-                        <div class="applicants-grid">
-                            <div class="document-card">
-                                <div class="card-header">
-                                    <h3>Sarah Johnson</h3>
-                                    <span class="badge info">New</span>
+                        <div class="documents-grid" id="documentsList">
+                            <!-- Document cards will be populated by JavaScript -->
+                            <div class="document-card verified">
+                                <div class="document-icon">
+                                    <i class="fas fa-file-certificate"></i>
                                 </div>
-                                <p><strong>Applied for:</strong> Senior Frontend Developer</p>
-                                <p><strong>Match Score:</strong> 92%</p>
+                                <div class="card-header">
+                                    <h3>10th Marksheet</h3>
+                                    <span class="status-badge status-verified">Verified</span>
+                                </div>
+                                <p>CBSE Board</p>
                                 <div class="skill-tags">
-                                    <span class="skill-tag">React</span>
-                                    <span class="skill-tag">JavaScript</span>
-                                    <span class="skill-tag">TypeScript</span>
+                                    <span class="skill-tag">Education</span>
+                                    <span class="skill-tag">Marksheet</span>
+                                </div>
+                                <div class="document-meta">
+                                    <span>Uploaded: 15 Jan 2023</span>
+                                    <span>1.2 MB</span>
+                                </div>
+                                <div class="document-actions">
+                                    <button class="btn btn-secondary" style="flex: 1;">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-primary" style="flex: 1;">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
                                 </div>
                             </div>
-                            <div class="document-card">
-                                <div class="card-header">
-                                    <h3>Michael Chen</h3>
-                                    <span class="badge success">Interview</span>
-                                </div>
-                                <p><strong>Applied for:</strong> Product Manager</p>
-                                <p><strong>Match Score:</strong> 88%</p>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">Product Strategy</span>
-                                    <span class="skill-tag">Data Analysis</span>
-                                    <span class="skill-tag">Agile</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="company-dashboard-card analytics">
-                        <h2>Hiring Analytics</h2>
-                        <div class="analytics-container">
-                            <canvas id="hiringChart"></canvas>
+                            <div class="document-card verified">
+                                <div class="document-icon">
+                                    <i class="fas fa-file-certificate"></i>
+                                </div>
+                                <div class="card-header">
+                                    <h3>12th Marksheet</h3>
+                                    <span class="status-badge status-verified">Verified</span>
+                                </div>
+                                <p>CBSE Board</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Education</span>
+                                    <span class="skill-tag">Marksheet</span>
+                                </div>
+                                <div class="document-meta">
+                                    <span>Uploaded: 20 May 2023</span>
+                                    <span>1.5 MB</span>
+                                </div>
+                                <div class="document-actions">
+                                    <button class="btn btn-secondary" style="flex: 1;">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-primary" style="flex: 1;">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="document-card pending">
+                                <div class="document-icon">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <div class="card-header">
+                                    <h3>Aadhar Card</h3>
+                                    <span class="status-badge status-pending">Pending</span>
+                                </div>
+                                <p>UIDAI</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Identity</span>
+                                    <span class="skill-tag">Government</span>
+                                </div>
+                                <div class="document-meta">
+                                    <span>Uploaded: 5 Jun 2023</span>
+                                    <span>0.8 MB</span>
+                                </div>
+                                <div class="document-actions">
+                                    <button class="btn btn-secondary" style="flex: 1;">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-primary" style="flex: 1;">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="document-card verified">
+                                <div class="document-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="card-header">
+                                    <h3>B.Tech Degree</h3>
+                                    <span class="status-badge status-verified">Verified</span>
+                                </div>
+                                <p>University of Delhi</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Education</span>
+                                    <span class="skill-tag">Degree</span>
+                                </div>
+                                <div class="document-meta">
+                                    <span>Uploaded: 10 Jul 2023</span>
+                                    <span>2.1 MB</span>
+                                </div>
+                                <div class="document-actions">
+                                    <button class="btn btn-secondary" style="flex: 1;">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-primary" style="flex: 1;">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div class="empty-state" id="emptyState" style="display: none;">
+                            <i class="fas fa-folder-open"></i>
+                            <h3>No documents yet</h3>
+                            <p>Upload your first document to get started!</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Other pages remain the same -->
+        <!-- Other pages remain similar -->
         <section id="learn" class="page">
             <div class="container">
                 <h1 class="page-title">Learn Skills</h1>
@@ -716,6 +621,20 @@
                 </div>
             </div>
         </section>
+
+        <!-- Company Dashboard remains the same -->
+        <section id="company-dashboard" class="page">
+            <div class="container">
+                <div class="company-dashboard-header">
+                    <div>
+                        <h1 class="page-title">Company Dashboard</h1>
+                        <p class="page-subtitle">Welcome back, Tech Solutions Inc.</p>
+                    </div>
+                    <div class="badge premium">Premium Plan</div>
+                </div>
+                <!-- Company dashboard content -->
+            </div>
+        </section>
     </main>
 
     <!-- Footer and Modals remain the same -->
@@ -732,6 +651,7 @@
                     <ul class="footer-links">
                         <li><a href="#" data-page="home">Home</a></li>
                         <li><a href="#" data-page="dashboard">Dashboard</a></li>
+                        <li><a href="#" data-page="vault">Vault</a></li>
                         <li><a href="#" data-page="learn">Learn</a></li>
                         <li><a href="#" data-page="jobs">Jobs</a></li>
                     </ul>
@@ -779,92 +699,180 @@
     <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; right: 1rem; bottom: 1rem; z-index: 9999;"></div>
 
     <script>
-        // Enhanced JavaScript with Dashboard Functionality
-        
-        // App State
-        let userCredits = 120;
-        let userBadge = 'bronze';
+        // Vault Functionality
+        const uploadForm = document.getElementById('uploadForm');
+        const docFile = document.getElementById('docFile');
+        const fileDisplay = document.getElementById('fileDisplay');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const uploadProgressBar = document.getElementById('uploadProgressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const documentsList = document.getElementById('documentsList');
+        const emptyState = document.getElementById('emptyState');
 
-        // Level requirements
-        const levelRequirements = {
-            beginner: { credits: 0, next: 'bronze' },
-            bronze: { credits: 100, next: 'silver' },
-            silver: { credits: 200, next: 'gold' },
-            gold: { credits: 300, next: null }
-        };
+        // File input display
+        docFile.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileDisplay.textContent = this.files[0].name;
+                fileDisplay.classList.add('file-selected');
+            } else {
+                fileDisplay.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Choose file (PDF, JPG, PNG, DOC)';
+                fileDisplay.classList.remove('file-selected');
+            }
+        });
 
-        // Update credits display
-        function updateCreditsDisplay() {
-            document.getElementById('creditCountDisplay').textContent = `${userCredits} Credits`;
+        // Upload form handler
+        uploadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             
-            // Determine current level and next level
-            let currentLevel = 'beginner';
-            let nextLevel = 'bronze';
-            let nextLevelCredits = levelRequirements.bronze.credits;
-            
-            if (userCredits >= levelRequirements.gold.credits) {
-                currentLevel = 'gold';
-                nextLevel = null;
-            } else if (userCredits >= levelRequirements.silver.credits) {
-                currentLevel = 'silver';
-                nextLevel = 'gold';
-                nextLevelCredits = levelRequirements.gold.credits;
-            } else if (userCredits >= levelRequirements.bronze.credits) {
-                currentLevel = 'bronze';
-                nextLevel = 'silver';
-                nextLevelCredits = levelRequirements.silver.credits;
+            const docType = document.getElementById('docType').value;
+            const docTitle = document.getElementById('docTitle').value;
+            const issuingAuthority = document.getElementById('issuingAuthority').value;
+            const issueDate = document.getElementById('issueDate').value;
+            const file = docFile.files[0];
+
+            if (!docType || !docTitle || !file) {
+                showToast('Please fill all required fields');
+                return;
             }
+
+            // Show upload progress
+            uploadProgress.style.display = 'block';
             
-            // Update badge
-            if (currentLevel !== userBadge) {
-                userBadge = currentLevel;
-                const badgeElement = document.getElementById('userBadge');
-                badgeElement.textContent = currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1);
-                badgeElement.className = `badge ${currentLevel}`;
-            }
-            
-            // Update progress bar
-            if (nextLevel) {
-                const currentLevelCredits = levelRequirements[currentLevel].credits;
-                const progressPercentage = ((userCredits - currentLevelCredits) / (nextLevelCredits - currentLevelCredits)) * 100;
-                document.getElementById('progressFill').style.width = `${Math.min(progressPercentage, 100)}%`;
-                document.getElementById('progressText').textContent = `${userCredits}/${nextLevelCredits} to ${nextLevel.charAt(0).toUpperCase() + nextLevel.slice(1)}`;
-            }
+            // Simulate upload progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Complete upload
+                    setTimeout(() => {
+                        uploadProgress.style.display = 'none';
+                        uploadProgressBar.style.width = '0%';
+                        progressPercent.textContent = '0%';
+                        
+                        // Add credits for upload
+                        userCredits += 20;
+                        updateCreditsDisplay();
+                        
+                        // Show success message
+                        showToast(`Document "${docTitle}" uploaded successfully! +20 credits`);
+                        
+                        // Reset form
+                        uploadForm.reset();
+                        fileDisplay.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Choose file (PDF, JPG, PNG, DOC)';
+                        fileDisplay.classList.remove('file-selected');
+                        
+                        // Add new document to list (in a real app, this would come from backend)
+                        addNewDocument(docType, docTitle, issuingAuthority, issueDate);
+                        
+                    }, 500);
+                }
+                
+                // Update progress bar
+                uploadProgressBar.style.width = `${progress}%`;
+                progressPercent.textContent = `${Math.round(progress)}%`;
+            }, 200);
+        });
+
+        // Category tabs
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const category = tab.getAttribute('data-category');
+                filterDocuments(category);
+            });
+        });
+
+        // Filter documents by category
+        function filterDocuments(category) {
+            const documents = documentsList.querySelectorAll('.document-card');
+            let visibleCount = 0;
+
+            documents.forEach(doc => {
+                const isVerified = doc.classList.contains('verified');
+                const isPending = doc.classList.contains('pending');
+                
+                let shouldShow = false;
+                
+                switch(category) {
+                    case 'all':
+                        shouldShow = true;
+                        break;
+                    case 'verified':
+                        shouldShow = isVerified;
+                        break;
+                    case 'pending':
+                        shouldShow = isPending;
+                        break;
+                }
+                
+                doc.style.display = shouldShow ? 'block' : 'none';
+                if (shouldShow) visibleCount++;
+            });
+
+            // Show empty state if no documents
+            emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
-        // Initialize charts
-        function initializeCharts() {
-            const hiringCtx = document.getElementById('hiringChart');
-            if (hiringCtx) {
-                new Chart(hiringCtx.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Applications',
-                            data: [65, 59, 80, 81, 56, 55],
-                            borderColor: '#6a11cb',
-                            backgroundColor: 'rgba(106, 17, 203, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            }
-                        }
-                    }
-                });
-            }
+        // Add new document to the list
+        function addNewDocument(type, title, authority, date) {
+            const documentCard = document.createElement('div');
+            documentCard.className = 'document-card pending';
+            documentCard.innerHTML = `
+                <div class="document-icon">
+                    <i class="fas fa-file-upload"></i>
+                </div>
+                <div class="card-header">
+                    <h3>${title}</h3>
+                    <span class="status-badge status-pending">Pending</span>
+                </div>
+                <p>${authority || 'Not specified'}</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">${getCategoryName(type)}</span>
+                    <span class="skill-tag">New</span>
+                </div>
+                <div class="document-meta">
+                    <span>Uploaded: ${new Date().toLocaleDateString()}</span>
+                    <span>${(Math.random() * 2 + 0.5).toFixed(1)} MB</span>
+                </div>
+                <div class="document-actions">
+                    <button class="btn btn-secondary" style="flex: 1;">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            `;
+            
+            documentsList.insertBefore(documentCard, documentsList.firstChild);
+            
+            // Hide empty state
+            emptyState.style.display = 'none';
         }
 
-        // Call this when page loads
-        updateCreditsDisplay();
-        initializeCharts();
+        // Helper function to get category name
+        function getCategoryName(type) {
+            const categories = {
+                '10th': '10th Marksheet',
+                '12th': '12th Marksheet',
+                'degree': 'Degree',
+                'skill': 'Skill Certificate',
+                'aadhar': 'Aadhar Card',
+                'pan': 'PAN Card',
+                'resume': 'Resume',
+                'other': 'Other'
+            };
+            return categories[type] || 'Document';
+        }
+
+        // Initialize vault
+        filterDocuments('all');
     </script>
 </body>
 </html>
