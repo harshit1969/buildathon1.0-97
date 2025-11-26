@@ -176,6 +176,131 @@
             max-width: 600px;
         }
 
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            padding: 4rem 0;
+            min-height: 80vh;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 20, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(15, 20, 25, 0.95);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: var(--shadow);
+            position: relative;
+            animation: slideUp 0.3s ease;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transform: scale(1.1);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--light);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
         /* Footer */
         footer {
             background: var(--darker);
@@ -220,6 +345,19 @@
             margin-top: 2rem;
             grid-column: 1 / -1;
         }
+
+        /* Toast Styles */
+        .toast {
+            background: var(--dark);
+            color: var(--light);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-top: 0.6rem;
+            max-width: 320px;
+            font-family: sans-serif;
+            transition: opacity 0.4s ease;
+        }
     </style>
 </head>
 <body>
@@ -238,6 +376,9 @@
                     <button class="btn btn-primary" id="loginBtn">
                         <i class="fas fa-sign-in-alt"></i> Sign In
                     </button>
+                    <button class="btn btn-secondary" id="logoutBtn" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </button>
                 </div>
             </nav>
         </div>
@@ -248,13 +389,22 @@
         <!-- Home Page -->
         <section id="home" class="page active">
             <div class="container">
-                <h1 class="page-title">Welcome to KudoSkill</h1>
-                <p class="page-subtitle">Level up your career with our comprehensive platform</p>
-                
-                <div style="text-align: center; margin-top: 4rem;">
-                    <button class="btn btn-primary" id="getStartedBtn">
-                        Get Started <i class="fas fa-arrow-right"></i>
-                    </button>
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1>Level Up Your Career with <span style="color: var(--light);">KudoSkill</span></h1>
+                        <p>The ultimate platform to store credentials, learn new skills, and land your dream job. Built for GenZ, by GenZ.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" id="getStartedBtn">
+                                Get Started <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button class="btn btn-secondary" id="findInternshipBtn">
+                                <i class="fas fa-search"></i> Find Internship
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <!-- Visual content will be added in next commit -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -264,7 +414,9 @@
             <div class="container">
                 <h1 class="page-title">Your Dashboard</h1>
                 <p class="page-subtitle">Track your progress and achievements</p>
-                <p style="color: var(--gray);">Dashboard content coming soon...</p>
+                <div id="dashboardContent">
+                    <p style="color: var(--gray);">Please sign in to access your dashboard.</p>
+                </div>
             </div>
         </section>
 
@@ -273,7 +425,9 @@
             <div class="container">
                 <h1 class="page-title">Learn Skills</h1>
                 <p class="page-subtitle">Enhance your career with our curated courses</p>
-                <p style="color: var(--gray);">Learning platform coming soon...</p>
+                <div id="learnContent">
+                    <p style="color: var(--gray);">Please sign in to access learning materials.</p>
+                </div>
             </div>
         </section>
 
@@ -282,7 +436,9 @@
             <div class="container">
                 <h1 class="page-title">Jobs & Internships</h1>
                 <p class="page-subtitle">Find opportunities that match your skills</p>
-                <p style="color: var(--gray);">Job marketplace coming soon...</p>
+                <div id="jobsContent">
+                    <p style="color: var(--gray);">Please sign in to browse job opportunities.</p>
+                </div>
             </div>
         </section>
     </main>
@@ -313,13 +469,59 @@
         </div>
     </footer>
 
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">Sign In to KudoSkill</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userType">I am a</label>
+                    <select id="userType" class="form-control">
+                        <option value="student">Student/Job Seeker</option>
+                        <option value="company">Company/Recruiter</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--gray);">
+                <small>Demo credentials:<br>student@kudoskill / student123<br>company@kudoskill / company123</small>
+            </p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; right: 1rem; bottom: 1rem; z-index: 9999;"></div>
+
     <script>
-        // Basic Navigation
+        // DOM Elements
         const navLinks = document.querySelectorAll('.nav-link');
         const pages = document.querySelectorAll('.page');
         const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
         const getStartedBtn = document.getElementById('getStartedBtn');
+        const findInternshipBtn = document.getElementById('findInternshipBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+        const userTypeSelect = document.getElementById('userType');
 
+        // App State
+        let isLoggedIn = false;
+        let isCompanyUser = false;
+        let currentUser = null;
+
+        // Navigation
         function navigateToPage(pageId) {
             // Update active nav link
             navLinks.forEach(nav => nav.classList.remove('active'));
@@ -333,11 +535,18 @@
                     page.classList.add('active');
                 }
             });
+            
+            // Update content based on login status
+            updatePageContent();
         }
 
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
+                if (!isLoggedIn && link.getAttribute('data-page') !== 'home') {
+                    loginModal.classList.add('active');
+                    return;
+                }
                 const targetPage = link.getAttribute('data-page');
                 navigateToPage(targetPage);
             });
@@ -349,19 +558,162 @@
                 e.preventDefault();
                 if (link.getAttribute('data-page')) {
                     const targetPage = link.getAttribute('data-page');
+                    if (!isLoggedIn && targetPage !== 'home') {
+                        loginModal.classList.add('active');
+                        return;
+                    }
                     navigateToPage(targetPage);
                 }
             });
         });
 
-        // Login button
+        // Authentication Functions
+        function handleLogin() {
+            isLoggedIn = true;
+            isCompanyUser = userTypeSelect.value === 'company';
+            currentUser = {
+                email: document.getElementById('email').value,
+                type: userTypeSelect.value,
+                name: userTypeSelect.value === 'student' ? 'Student User' : 'Company User'
+            };
+
+            // Update UI
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'flex';
+            document.body.classList.add('logged-in');
+
+            // Update page content
+            updatePageContent();
+
+            // Show success message
+            showToast(`Welcome back, ${currentUser.name}!`);
+
+            // Close modal and navigate to dashboard
+            loginModal.classList.remove('active');
+            navigateToPage('dashboard');
+        }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            isCompanyUser = false;
+            currentUser = null;
+
+            // Update UI
+            loginBtn.style.display = 'flex';
+            logoutBtn.style.display = 'none';
+            document.body.classList.remove('logged-in');
+
+            // Update page content
+            updatePageContent();
+
+            // Show message and navigate to home
+            showToast('You have been signed out.');
+            navigateToPage('home');
+        }
+
+        function updatePageContent() {
+            if (isLoggedIn) {
+                // Update dashboard content
+                const dashboardContent = document.getElementById('dashboardContent');
+                if (dashboardContent) {
+                    dashboardContent.innerHTML = `
+                        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: var(--border-radius);">
+                            <h3>Welcome, ${currentUser.name}!</h3>
+                            <p style="color: var(--gray); margin-top: 1rem;">
+                                ${isCompanyUser ? 
+                                    'Manage your job postings and applicants.' : 
+                                    'Track your learning progress and job applications.'
+                                }
+                            </p>
+                        </div>
+                    `;
+                }
+
+                // Update other pages
+                const learnContent = document.getElementById('learnContent');
+                const jobsContent = document.getElementById('jobsContent');
+                
+                if (learnContent) {
+                    learnContent.innerHTML = `
+                        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: var(--border-radius);">
+                            <h3>Available Courses</h3>
+                            <p style="color: var(--gray); margin-top: 1rem;">Course catalog coming soon...</p>
+                        </div>
+                    `;
+                }
+
+                if (jobsContent) {
+                    jobsContent.innerHTML = `
+                        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: var(--border-radius);">
+                            <h3>Job Marketplace</h3>
+                            <p style="color: var(--gray); margin-top: 1rem;">${isCompanyUser ? 
+                                'Post and manage job listings.' : 
+                                'Browse available positions and internships.'
+                            }</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Event Listeners
         loginBtn.addEventListener('click', () => {
-            alert('Login functionality coming soon!');
+            loginModal.classList.add('active');
         });
 
         getStartedBtn.addEventListener('click', () => {
-            navigateToPage('dashboard');
+            loginModal.classList.add('active');
         });
+
+        findInternshipBtn.addEventListener('click', () => {
+            if (!isLoggedIn) {
+                loginModal.classList.add('active');
+            } else {
+                navigateToPage('jobs');
+            }
+        });
+
+        logoutBtn.addEventListener('click', handleLogout);
+
+        closeModal.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const userType = userTypeSelect.value;
+            
+            // Demo validation
+            if ((userType === 'student' && email === 'student@kudoskill' && password === 'student123') ||
+                (userType === 'company' && email === 'company@kudoskill' && password === 'company123')) {
+                handleLogin();
+            } else {
+                showToast('Invalid credentials. Use demo credentials provided.');
+            }
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
+        });
+
+        // Toast function
+        function showToast(msg, timeout = 4000) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = msg;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 400);
+            }, timeout);
+        }
     </script>
 </body>
 </html>
