@@ -5,358 +5,380 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KudoSkill - Level Up Your Career</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        /* CSS Variables and Base Styles */
-        :root {
-            --primary: #6a11cb;
-            --primary-light: #8a2be2;
-            --primary-dark: #4a0d9c;
-            --secondary: #00c6ff;
-            --accent: #ff7e5f;
-            --accent-light: #ff9e80;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-            --warning: #f39c12;
-            --info: #3498db;
-            --dark: #0f1419;
-            --darker: #0a0e14;
-            --light: #ffffff;
-            --gray: #8a8d91;
-            --gray-light: #e8eaed;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-            --gradient-secondary: linear-gradient(135deg, var(--primary-light), var(--accent));
-            --gradient-accent: linear-gradient(135deg, var(--accent), var(--warning));
-            --border-radius: 16px;
-            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        body {
-            background-color: var(--dark);
-            color: var(--light);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: rgba(15, 20, 25, 0.95);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 0;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--gray);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            transform: translateY(-2px);
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        /* Button Styles */
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background: var(--gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-3px) scale(1.05);
-        }
-
-        /* Page Sections */
-        .page {
-            display: none;
-            padding: 2rem 0;
-            min-height: calc(100vh - 80px);
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .page-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .page-subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-        }
-
-        /* Hero Section */
-        .hero {
+        /* Previous CSS remains the same, adding new dashboard styles */
+        
+        /* Dashboard Grid Layout */
+        .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            padding: 4rem 0;
-            min-height: 80vh;
+            grid-template-rows: auto auto auto;
+            gap: 2rem;
+            grid-template-areas: 
+                "progress actions"
+                "certificates jobs"
+                "stats stats";
         }
 
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            font-weight: 800;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 14, 20, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: rgba(15, 20, 25, 0.95);
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: var(--border-radius);
-            padding: 2.5rem;
-            width: 90%;
-            max-width: 450px;
+            padding: 2rem;
             box-shadow: var(--shadow);
-            position: relative;
-            animation: slideUp 0.3s ease;
-            backdrop-filter: blur(20px);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .dashboard-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+        .dashboard-card.progress {
+            grid-area: progress;
+        }
+
+        .dashboard-card.actions {
+            grid-area: actions;
+        }
+
+        .dashboard-card.certificates {
+            grid-area: certificates;
+        }
+
+        .dashboard-card.jobs {
+            grid-area: jobs;
+        }
+
+        .dashboard-card.stats {
+            grid-area: stats;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 1.5rem 0;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .badge.beginner {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+        }
+
+        .badge.bronze {
+            background: linear-gradient(135deg, #cd7f32, #a56a28);
+            color: white;
+        }
+
+        .badge.silver {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            color: black;
+        }
+
+        .badge.gold {
+            background: linear-gradient(135deg, #ffd700, #d4af37);
+            color: black;
+        }
+
+        .badge.success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge.warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .badge.info {
+            background: var(--info);
+            color: white;
+        }
+
+        .badge.premium {
+            background: var(--gradient);
+            color: white;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 1.2rem 1rem;
+            border-radius: var(--border-radius);
+            color: var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-btn i {
+            font-size: 1.5rem;
+            color: var(--light);
+        }
+
+        /* Cards Grid */
+        .documents-grid, .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .document-card, .job-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .document-card:hover, .job-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
             background: none;
             border: none;
             color: var(--gray);
-            font-size: 1.5rem;
             cursor: pointer;
+            font-size: 1.25rem;
+            transition: var(--transition);
             width: 40px;
             height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
         }
 
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .icon-btn:hover {
             color: var(--light);
+            background: rgba(255, 255, 255, 0.1);
             transform: scale(1.1);
         }
 
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 1.5rem;
+        /* Skill Tags */
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .match-badge {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
             font-weight: 500;
         }
 
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Stats */
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.05);
-            color: var(--light);
+            border-radius: var(--border-radius);
             transition: var(--transition);
-            backdrop-filter: blur(10px);
         }
 
-        .form-control:focus {
-            outline: none;
-            border-color: var(--light);
+        .stat-item:hover {
+            transform: translateY(-3px) scale(1.02);
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        /* Footer */
-        footer {
-            background: var(--darker);
-            padding: 3rem 0;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--light);
+            margin-bottom: 0.5rem;
         }
 
-        .credits {
+        .stat-label {
             color: var(--gray);
             font-size: 0.9rem;
-            text-align: center;
-            margin-top: 2rem;
-            grid-column: 1 / -1;
         }
 
-        /* Toast Styles */
-        .toast {
-            background: var(--dark);
-            color: var(--light);
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
+        /* Company Dashboard */
+        .company-dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 2rem;
+            grid-template-areas: 
+                "stats stats"
+                "jobs applicants"
+                "analytics analytics";
+        }
+
+        .company-dashboard-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 2rem;
             box-shadow: var(--shadow);
-            margin-top: 0.6rem;
-            max-width: 320px;
-            font-family: sans-serif;
-            transition: opacity 0.4s ease;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .company-dashboard-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .company-dashboard-card.stats {
+            grid-area: stats;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .company-dashboard-card.jobs {
+            grid-area: jobs;
+        }
+
+        .company-dashboard-card.applicants {
+            grid-area: applicants;
+        }
+
+        .company-dashboard-card.analytics {
+            grid-area: analytics;
+        }
+
+        .analytics-container {
+            margin-top: 1.5rem;
+            height: 300px;
+            position: relative;
+        }
+
+        /* Credit Counter */
+        .credit-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .company-dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "progress"
+                    "actions"
+                    "certificates"
+                    "jobs"
+                    "stats";
+            }
+
+            .company-dashboard-grid {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "stats"
+                    "jobs"
+                    "applicants"
+                    "analytics";
+            }
+
+            .dashboard-card.stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .documents-grid, .jobs-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -371,6 +393,7 @@
                     <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
                     <a href="#" class="nav-link" data-page="learn">Learn</a>
                     <a href="#" class="nav-link" data-page="jobs">Jobs</a>
+                    <a href="#" class="nav-link company-nav" data-page="company-dashboard" style="display: none;">Company Dashboard</a>
                 </div>
                 <div class="nav-actions">
                     <button class="btn btn-primary" id="loginBtn">
@@ -379,6 +402,7 @@
                     <button class="btn btn-secondary" id="logoutBtn" style="display: none;">
                         <i class="fas fa-sign-out-alt"></i> Sign Out
                     </button>
+                    <div class="credit-counter" id="creditCount" style="display: none;">120 Credits</div>
                 </div>
             </nav>
         </div>
@@ -409,18 +433,270 @@
             </div>
         </section>
 
-        <!-- Dashboard Page -->
+        <!-- Student Dashboard -->
         <section id="dashboard" class="page">
             <div class="container">
-                <h1 class="page-title">Your Dashboard</h1>
-                <p class="page-subtitle">Track your progress and achievements</p>
-                <div id="dashboardContent">
-                    <p style="color: var(--gray);">Please sign in to access your dashboard.</p>
+                <div class="dashboard-header">
+                    <h1 class="page-title">Your Dashboard</h1>
+                    <div class="credit-counter" id="creditCountDisplay">120 Credits</div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card progress">
+                        <h2>Progress Overview</h2>
+                        <div class="badge-display">
+                            <span class="badge bronze" id="userBadge">Bronze</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+                            </div>
+                            <p id="progressText">120/200 to Silver</p>
+                        </div>
+                        <div class="requirements">
+                            <h3>Next Level Requirements</h3>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>Complete profile basics</li>
+                                <li>Add 5+ skills</li>
+                                <li>Upload 3+ skill proofs</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card actions">
+                        <h2>Quick Actions</h2>
+                        <div class="quick-actions">
+                            <button class="action-btn" data-page="vault">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload to Vault</span>
+                            </button>
+                            <button class="action-btn" data-page="learn">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Browse Learn</span>
+                            </button>
+                            <button class="action-btn" data-page="jobs">
+                                <i class="fas fa-briefcase"></i>
+                                <span>View Jobs</span>
+                            </button>
+                            <button class="action-btn" data-page="profile">
+                                <i class="fas fa-user"></i>
+                                <span>My Profile</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card certificates">
+                        <h2>Recent Certificates</h2>
+                        <div class="documents-grid">
+                            <div class="document-card">
+                                <div class="card-header">
+                                    <h3>JavaScript Certification</h3>
+                                    <div class="card-actions">
+                                        <button class="icon-btn"><i class="fas fa-download"></i></button>
+                                    </div>
+                                </div>
+                                <p>Issued by: Code Academy</p>
+                                <p>Date: 15 May 2023</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">Web Development</span>
+                                </div>
+                            </div>
+                            <div class="document-card">
+                                <div class="card-header">
+                                    <h3>React Development</h3>
+                                    <div class="card-actions">
+                                        <button class="icon-btn"><i class="fas fa-download"></i></button>
+                                    </div>
+                                </div>
+                                <p>Issued by: Tech Institute</p>
+                                <p>Date: 22 June 2023</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Frontend</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card jobs">
+                        <h2>Top Matched Jobs</h2>
+                        <div class="jobs-grid">
+                            <div class="job-card">
+                                <div class="card-header">
+                                    <h3>Frontend Developer</h3>
+                                    <span class="match-badge">85% Match</span>
+                                </div>
+                                <p>Tech Solutions Inc.</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">CSS</span>
+                                </div>
+                                <p>Location: Remote</p>
+                                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Apply Now</button>
+                            </div>
+                            <div class="job-card">
+                                <div class="card-header">
+                                    <h3>UI/UX Designer</h3>
+                                    <span class="match-badge">72% Match</span>
+                                </div>
+                                <p>Creative Studio</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Figma</span>
+                                    <span class="skill-tag">UI Design</span>
+                                    <span class="skill-tag">Prototyping</span>
+                                </div>
+                                <p>Location: San Francisco, CA</p>
+                                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card stats">
+                        <div class="stat-item">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Skills Added</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Documents Uploaded</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Courses Completed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">Job Applications</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Learn Page -->
+        <!-- Company Dashboard -->
+        <section id="company-dashboard" class="page">
+            <div class="container">
+                <div class="company-dashboard-header">
+                    <div>
+                        <h1 class="page-title">Company Dashboard</h1>
+                        <p class="page-subtitle">Welcome back, Tech Solutions Inc. Here's your hiring overview.</p>
+                    </div>
+                    <div class="badge premium">Premium Plan</div>
+                </div>
+                
+                <div class="company-dashboard-grid">
+                    <div class="company-dashboard-card stats">
+                        <div class="stat-item">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Active Jobs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Total Applicants</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Interviews Scheduled</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">New Hires</div>
+                        </div>
+                    </div>
+
+                    <div class="company-dashboard-card jobs">
+                        <h2>Recent Job Postings</h2>
+                        <div class="quick-actions">
+                            <button class="action-btn" data-page="company-jobs">
+                                <i class="fas fa-eye"></i>
+                                <span>View All Jobs</span>
+                            </button>
+                            <button class="action-btn" id="quickPostJob">
+                                <i class="fas fa-plus"></i>
+                                <span>Post New Job</span>
+                            </button>
+                        </div>
+                        <div class="jobs-grid">
+                            <div class="job-card">
+                                <div class="card-header">
+                                    <h3>Senior Frontend Developer</h3>
+                                    <span class="badge success">Active</span>
+                                </div>
+                                <p><strong>Department:</strong> Engineering</p>
+                                <p><strong>Applications:</strong> 42</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">TypeScript</span>
+                                    <span class="skill-tag">UI/UX</span>
+                                </div>
+                            </div>
+                            <div class="job-card">
+                                <div class="card-header">
+                                    <h3>Product Manager</h3>
+                                    <span class="badge warning">Paused</span>
+                                </div>
+                                <p><strong>Department:</strong> Product</p>
+                                <p><strong>Applications:</strong> 28</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Product Strategy</span>
+                                    <span class="skill-tag">Agile</span>
+                                    <span class="skill-tag">User Research</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="company-dashboard-card applicants">
+                        <h2>Recent Applicants</h2>
+                        <div class="quick-actions">
+                            <button class="action-btn" data-page="company-applicants">
+                                <i class="fas fa-eye"></i>
+                                <span>View All Applicants</span>
+                            </button>
+                        </div>
+                        <div class="applicants-grid">
+                            <div class="document-card">
+                                <div class="card-header">
+                                    <h3>Sarah Johnson</h3>
+                                    <span class="badge info">New</span>
+                                </div>
+                                <p><strong>Applied for:</strong> Senior Frontend Developer</p>
+                                <p><strong>Match Score:</strong> 92%</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">TypeScript</span>
+                                </div>
+                            </div>
+                            <div class="document-card">
+                                <div class="card-header">
+                                    <h3>Michael Chen</h3>
+                                    <span class="badge success">Interview</span>
+                                </div>
+                                <p><strong>Applied for:</strong> Product Manager</p>
+                                <p><strong>Match Score:</strong> 88%</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Product Strategy</span>
+                                    <span class="skill-tag">Data Analysis</span>
+                                    <span class="skill-tag">Agile</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="company-dashboard-card analytics">
+                        <h2>Hiring Analytics</h2>
+                        <div class="analytics-container">
+                            <canvas id="hiringChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other pages remain the same -->
         <section id="learn" class="page">
             <div class="container">
                 <h1 class="page-title">Learn Skills</h1>
@@ -431,7 +707,6 @@
             </div>
         </section>
 
-        <!-- Jobs Page -->
         <section id="jobs" class="page">
             <div class="container">
                 <h1 class="page-title">Jobs & Internships</h1>
@@ -443,7 +718,7 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer and Modals remain the same -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -504,216 +779,92 @@
     <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; right: 1rem; bottom: 1rem; z-index: 9999;"></div>
 
     <script>
-        // DOM Elements
-        const navLinks = document.querySelectorAll('.nav-link');
-        const pages = document.querySelectorAll('.page');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const getStartedBtn = document.getElementById('getStartedBtn');
-        const findInternshipBtn = document.getElementById('findInternshipBtn');
-        const loginModal = document.getElementById('loginModal');
-        const closeModal = document.getElementById('closeModal');
-        const loginForm = document.getElementById('loginForm');
-        const userTypeSelect = document.getElementById('userType');
-
+        // Enhanced JavaScript with Dashboard Functionality
+        
         // App State
-        let isLoggedIn = false;
-        let isCompanyUser = false;
-        let currentUser = null;
+        let userCredits = 120;
+        let userBadge = 'bronze';
 
-        // Navigation
-        function navigateToPage(pageId) {
-            // Update active nav link
-            navLinks.forEach(nav => nav.classList.remove('active'));
-            const targetNav = document.querySelector(`[data-page="${pageId}"]`);
-            if (targetNav) targetNav.classList.add('active');
+        // Level requirements
+        const levelRequirements = {
+            beginner: { credits: 0, next: 'bronze' },
+            bronze: { credits: 100, next: 'silver' },
+            silver: { credits: 200, next: 'gold' },
+            gold: { credits: 300, next: null }
+        };
+
+        // Update credits display
+        function updateCreditsDisplay() {
+            document.getElementById('creditCountDisplay').textContent = `${userCredits} Credits`;
             
-            // Show target page
-            pages.forEach(page => {
-                page.classList.remove('active');
-                if (page.id === pageId) {
-                    page.classList.add('active');
-                }
-            });
+            // Determine current level and next level
+            let currentLevel = 'beginner';
+            let nextLevel = 'bronze';
+            let nextLevelCredits = levelRequirements.bronze.credits;
             
-            // Update content based on login status
-            updatePageContent();
+            if (userCredits >= levelRequirements.gold.credits) {
+                currentLevel = 'gold';
+                nextLevel = null;
+            } else if (userCredits >= levelRequirements.silver.credits) {
+                currentLevel = 'silver';
+                nextLevel = 'gold';
+                nextLevelCredits = levelRequirements.gold.credits;
+            } else if (userCredits >= levelRequirements.bronze.credits) {
+                currentLevel = 'bronze';
+                nextLevel = 'silver';
+                nextLevelCredits = levelRequirements.silver.credits;
+            }
+            
+            // Update badge
+            if (currentLevel !== userBadge) {
+                userBadge = currentLevel;
+                const badgeElement = document.getElementById('userBadge');
+                badgeElement.textContent = currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1);
+                badgeElement.className = `badge ${currentLevel}`;
+            }
+            
+            // Update progress bar
+            if (nextLevel) {
+                const currentLevelCredits = levelRequirements[currentLevel].credits;
+                const progressPercentage = ((userCredits - currentLevelCredits) / (nextLevelCredits - currentLevelCredits)) * 100;
+                document.getElementById('progressFill').style.width = `${Math.min(progressPercentage, 100)}%`;
+                document.getElementById('progressText').textContent = `${userCredits}/${nextLevelCredits} to ${nextLevel.charAt(0).toUpperCase() + nextLevel.slice(1)}`;
+            }
         }
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (!isLoggedIn && link.getAttribute('data-page') !== 'home') {
-                    loginModal.classList.add('active');
-                    return;
-                }
-                const targetPage = link.getAttribute('data-page');
-                navigateToPage(targetPage);
-            });
-        });
-
-        // Footer links navigation
-        document.querySelectorAll('.footer-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (link.getAttribute('data-page')) {
-                    const targetPage = link.getAttribute('data-page');
-                    if (!isLoggedIn && targetPage !== 'home') {
-                        loginModal.classList.add('active');
-                        return;
+        // Initialize charts
+        function initializeCharts() {
+            const hiringCtx = document.getElementById('hiringChart');
+            if (hiringCtx) {
+                new Chart(hiringCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Applications',
+                            data: [65, 59, 80, 81, 56, 55],
+                            borderColor: '#6a11cb',
+                            backgroundColor: 'rgba(106, 17, 203, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        }
                     }
-                    navigateToPage(targetPage);
-                }
-            });
-        });
-
-        // Authentication Functions
-        function handleLogin() {
-            isLoggedIn = true;
-            isCompanyUser = userTypeSelect.value === 'company';
-            currentUser = {
-                email: document.getElementById('email').value,
-                type: userTypeSelect.value,
-                name: userTypeSelect.value === 'student' ? 'Student User' : 'Company User'
-            };
-
-            // Update UI
-            loginBtn.style.display = 'none';
-            logoutBtn.style.display = 'flex';
-            document.body.classList.add('logged-in');
-
-            // Update page content
-            updatePageContent();
-
-            // Show success message
-            showToast(`Welcome back, ${currentUser.name}!`);
-
-            // Close modal and navigate to dashboard
-            loginModal.classList.remove('active');
-            navigateToPage('dashboard');
-        }
-
-        function handleLogout() {
-            isLoggedIn = false;
-            isCompanyUser = false;
-            currentUser = null;
-
-            // Update UI
-            loginBtn.style.display = 'flex';
-            logoutBtn.style.display = 'none';
-            document.body.classList.remove('logged-in');
-
-            // Update page content
-            updatePageContent();
-
-            // Show message and navigate to home
-            showToast('You have been signed out.');
-            navigateToPage('home');
-        }
-
-        function updatePageContent() {
-            if (isLoggedIn) {
-                // Update dashboard content
-                const dashboardContent = document.getElementById('dashboardContent');
-                if (dashboardContent) {
-                    dashboardContent.innerHTML = `
-                        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: var(--border-radius);">
-                            <h3>Welcome, ${currentUser.name}!</h3>
-                            <p style="color: var(--gray); margin-top: 1rem;">
-                                ${isCompanyUser ? 
-                                    'Manage your job postings and applicants.' : 
-                                    'Track your learning progress and job applications.'
-                                }
-                            </p>
-                        </div>
-                    `;
-                }
-
-                // Update other pages
-                const learnContent = document.getElementById('learnContent');
-                const jobsContent = document.getElementById('jobsContent');
-                
-                if (learnContent) {
-                    learnContent.innerHTML = `
-                        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: var(--border-radius);">
-                            <h3>Available Courses</h3>
-                            <p style="color: var(--gray); margin-top: 1rem;">Course catalog coming soon...</p>
-                        </div>
-                    `;
-                }
-
-                if (jobsContent) {
-                    jobsContent.innerHTML = `
-                        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: var(--border-radius);">
-                            <h3>Job Marketplace</h3>
-                            <p style="color: var(--gray); margin-top: 1rem;">${isCompanyUser ? 
-                                'Post and manage job listings.' : 
-                                'Browse available positions and internships.'
-                            }</p>
-                        </div>
-                    `;
-                }
+                });
             }
         }
 
-        // Event Listeners
-        loginBtn.addEventListener('click', () => {
-            loginModal.classList.add('active');
-        });
-
-        getStartedBtn.addEventListener('click', () => {
-            loginModal.classList.add('active');
-        });
-
-        findInternshipBtn.addEventListener('click', () => {
-            if (!isLoggedIn) {
-                loginModal.classList.add('active');
-            } else {
-                navigateToPage('jobs');
-            }
-        });
-
-        logoutBtn.addEventListener('click', handleLogout);
-
-        closeModal.addEventListener('click', () => {
-            loginModal.classList.remove('active');
-        });
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const userType = userTypeSelect.value;
-            
-            // Demo validation
-            if ((userType === 'student' && email === 'student@kudoskill' && password === 'student123') ||
-                (userType === 'company' && email === 'company@kudoskill' && password === 'company123')) {
-                handleLogin();
-            } else {
-                showToast('Invalid credentials. Use demo credentials provided.');
-            }
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === loginModal) {
-                loginModal.classList.remove('active');
-            }
-        });
-
-        // Toast function
-        function showToast(msg, timeout = 4000) {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = msg;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 400);
-            }, timeout);
-        }
+        // Call this when page loads
+        updateCreditsDisplay();
+        initializeCharts();
     </script>
 </body>
 </html>
